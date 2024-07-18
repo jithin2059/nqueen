@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>N-Queen Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #000;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .success-image {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+        .show {
+            display: block !important;
+            animation: blast 1s ease-in-out forwards;
+        }
+        @keyframes blast {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Solve the N-Queen Problem</h1>
+    <form method="post">
+        <label for="n">Enter N:</label>
+        <input type="number" name="n" id="n" min="1" required>
+        <button type="submit">Solve</button>
+    </form>
+
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if board %}
+    <h2>Solution for N = {{ n }}</h2>
+    <table>
+        {% for row in board %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ 'Q' if cell else '.' }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <img src="{{ url_for('static', filename='images/success.jpg') }}" class="success-image" id="successImage" alt="Success">
+
+    <script>
+        window.onload = function() {
+            {% if success %}
+            document.getElementById('successImage').classList.add('show');
+            {% endif %}
+        };
+    </script>
+</body>
+</html>
