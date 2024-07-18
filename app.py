@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from n_queen_solver.py import get_solution
+from n_queen_solver import get_solution
 
 app = Flask(__name__)
 
@@ -9,10 +9,10 @@ def index():
         n = int(request.form['n'])
         solution = get_solution(n)
         if solution:
-            return render_template('result.html', board=solution, n=n)
+            return render_template('index.html', board=solution, n=n, success=True)
         else:
-            return render_template('index.html', error="No solution exists for N = {}".format(n))
-    return render_template('index.html')
+            return render_template('index.html', error="No solution exists for N = {}".format(n), success=False)
+    return render_template('index.html', success=False)
 
 if __name__ == '__main__':
     app.run(debug=True)
